@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <main style={{ fontFamily: 'monospace', padding: '2rem' }}>
-      <h1>// portfolio</h1>
+      <h1>// My portfolio</h1>
       <h2>API status</h2>
 
       {error && <p>Could not reach the API: {error}</p>}

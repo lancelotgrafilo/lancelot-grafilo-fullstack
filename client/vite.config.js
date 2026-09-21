@@ -1,14 +1,17 @@
-
+import process from 'node:process'
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [/* leave what Vite generated here */],
+  plugins: [react()],
   server: {
+    host: true,
     port: 5173,
+    watch: {
+      usePolling: true,
+    },
     proxy: {
-      '/api': 'http://localhost:4000',
+      '/api': process.env.VITE_API_PROXY_TARGET || 'http://localhost:4000',
     },
   },
 })
-
-
