@@ -1,5 +1,6 @@
 import { Link, Outlet } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext.jsx'
+import { useFetch } from '../hooks/useFetch.js'
 
 function SunIcon() {
   return (
@@ -20,6 +21,7 @@ function MoonIcon() {
 
 export default function Layout() {
   const { theme, toggleTheme } = useTheme()
+  const { data: health, error: healthError } = useFetch('/api/health')
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -89,7 +91,24 @@ export default function Layout() {
         fontSize: '0.85rem',
       }}>
         <span>Lancelot Grafilo</span>
-        <span>API: checking...</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+          <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: 'var(--radius-full)',
+                background: health?.database === 'connected'
+                  ? '#22C55E'
+                  : (health || healthError) ? '#EF4444' : 'var(--color-text-muted)',
+                display: 'inline-block',
+              }}
+            />
+            API: {health
+              ? (health.database === 'connected' ? 'online' : 'degraded')
+              : healthError
+                ? 'offline'
+                : 'checking...'}
+        </span>
       </footer>
     </div>
   )
