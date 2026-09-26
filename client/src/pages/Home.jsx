@@ -3,14 +3,18 @@ import Button from '../components/ui/Button.jsx'
 import Card from '../components/ui/Card.jsx'
 import TagChip from '../components/ui/TagChip.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
+import Avatar from '../components/ui/Avatar.jsx'
 
 export default function Home() {
   return (
     <div>
-      <SectionHeader
-        title="Full-stack developer"
-        subtitle="Building reliable web apps with React, Node.js, and PostgreSQL."
-      />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>
+        <Avatar src="./headshot.png" alt="Lancelot Grafilo" initials="LG" size={110} />
+        <SectionHeader
+          title="Full-stack developer"
+          subtitle="Building reliable web apps with React, Node.js, and PostgreSQL."
+        />
+      </div>
 
       <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
         <Button as={Link} to="/projects">View Projects</Button>
