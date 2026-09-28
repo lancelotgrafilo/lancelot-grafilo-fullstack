@@ -17,3 +17,13 @@ export const contactLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many messages. Please try again later.' },
 });
+
+// Strict limit for login attempts; successful logins do not count
+export const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  skipSuccessfulRequests: true,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many login attempts. Please try again later.' },
+});
