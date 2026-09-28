@@ -56,7 +56,7 @@ export default function About() {
                 {item.organization}
               </p>
               <p style={{ margin: '0.3rem 0 0.6rem', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
-                {formatDate(item.start_date)} — {item.end_date ? formatDate(item.end_date) : 'Present'}
+                {formatDate(item.start_date)} to {item.end_date ? formatDate(item.end_date) : 'Present'}
               </p>
               <p style={{ margin: 0 }}>{item.description}</p>
             </Card>
