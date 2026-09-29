@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
+import AdminLayout from './components/AdminLayout.jsx'
 import Home from './pages/Home.jsx'
 import Projects from './pages/Projects.jsx'
 import ProjectDetail from './pages/ProjectDetail.jsx'
@@ -23,7 +24,9 @@ export default function App() {
         <Route path="/status" element={<Status />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route element={<RequireAuth />}>
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

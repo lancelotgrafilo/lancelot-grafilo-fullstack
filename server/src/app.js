@@ -7,6 +7,7 @@ import skillsRouter from './routes/skills.js';
 import experienceRouter from './routes/experience.js';
 import contactRouter from './routes/contact.js';
 import authRouter from './routes/auth.js';
+import messagesRouter from './routes/messages.js';
 import { apiLimiter } from './middleware/rateLimiters.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 
@@ -23,6 +24,7 @@ app.use('/api/skills', skillsRouter);
 app.use('/api/experience', experienceRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/messages', messagesRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
