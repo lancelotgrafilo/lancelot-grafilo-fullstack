@@ -17,7 +17,7 @@ export default function Button({
     fontFamily: 'var(--font-body)',
     cursor: 'pointer',
     border: '1px solid transparent',
-    transition: 'background 0.15s ease, border-color 0.15s ease',
+    transition: 'background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast)',
   }
 
   const variants = {
@@ -37,7 +37,11 @@ export default function Button({
   }
 
   return (
-    <Component style={{ ...base, ...variants[variant], ...style }} {...props}>
+    <Component
+      className={`btn btn-${variant}`}
+      style={{ ...base, ...variants[variant], ...style }}
+      {...props}
+    >
       {children}
     </Component>
   )

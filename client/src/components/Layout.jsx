@@ -41,10 +41,11 @@ export default function Layout() {
           Lancelot Grafilo
         </Link>
         <nav style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
-          <Link to="/projects" style={{ color: 'var(--color-text-muted)' }}>Projects</Link>
-          <Link to="/about" style={{ color: 'var(--color-text-muted)' }}>About</Link>
+          <Link to="/projects" className="nav-link" style={{ color: 'var(--color-text-muted)' }}>Projects</Link>
+          <Link to="/about" className="nav-link" style={{ color: 'var(--color-text-muted)' }}>About</Link>
             <button
               onClick={toggleTheme}
+              className="theme-toggle"
               style={{
                 background: 'var(--color-surface)',
                 border: '1px solid var(--color-border)',

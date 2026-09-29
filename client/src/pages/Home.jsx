@@ -43,7 +43,7 @@ export default function Home() {
       {featured.length > 0 && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 'var(--space-md)' }}>
           {featured.map((project) => (
-            <Card key={project.id}>
+            <Card key={project.id} className="card-hover">
               <h3 style={{ marginTop: 0 }}>
                 <Link to={`/projects/${project.slug}`} style={{ color: 'var(--color-text)' }}>
                   {project.title}
