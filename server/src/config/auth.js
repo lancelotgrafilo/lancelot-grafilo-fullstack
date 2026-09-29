@@ -11,6 +11,8 @@ if (!secret || secret.length < 32) {
 export const JWT_SECRET = secret;
 export const JWT_EXPIRES_IN = '2h';
 export const COOKIE_NAME = 'portfolio_token';
+export const CSRF_COOKIE_NAME = 'portfolio_csrf';
+export const CSRF_HEADER_NAME = 'x-csrf-token';
 
 const baseCookie = {
   httpOnly: true,

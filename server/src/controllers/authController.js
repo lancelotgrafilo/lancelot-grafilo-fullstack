@@ -62,3 +62,18 @@ export function logout(req, res) {
   res.clearCookie(COOKIE_NAME, clearCookieOptions);
   res.json({ message: 'Logged out' });
 }
+
+export async function me(req, res, next) {
+  try {
+    const result = await pool.query('SELECT id, email FROM users WHERE id = $1', [req.userId]);
+    const user = result.rows[0];
+
+    if (!user) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    res.json({ id: user.id, email: user.email });
+  } catch (err) {
+    next(err);
+  }
+}
