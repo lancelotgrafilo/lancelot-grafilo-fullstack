@@ -31,6 +31,7 @@ export default function AdminLayout() {
         </p>
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
           <Link to="/admin" style={{ color: 'var(--color-text)' }}>Messages</Link>
+          <Link to="/admin/projects" style={{ color: 'var(--color-text)' }}>Projects</Link>
         </nav>
         <div style={{ marginTop: 'var(--space-lg)' }}>
           <Button variant="secondary" onClick={handleLogout} style={{ width: '100%' }}>

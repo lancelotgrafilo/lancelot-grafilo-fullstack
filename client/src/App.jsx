@@ -11,6 +11,7 @@ import Status from './pages/Status.jsx'
 import AdminLogin from './pages/AdminLogin.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import NotFound from './pages/NotFound.jsx'
+import AdminProjects from './pages/AdminProjects.jsx'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route element={<RequireAuth />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/projects" element={<AdminProjects />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
