@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext.jsx'
 import { useFetch } from '../hooks/useFetch.js'
+import ErrorBoundary from './ErrorBoundary.jsx'
 
 function SunIcon() {
   return (
@@ -173,7 +174,9 @@ export default function Layout() {
       )}
 
       <main id="main-content" style={{ flex: 1, padding: 'var(--space-lg)', maxWidth: '1100px', width: '100%', margin: '0 auto' }}>
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
 
       <footer
