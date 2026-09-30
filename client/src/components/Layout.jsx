@@ -43,6 +43,24 @@ export default function Layout() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <a
+        href="#main-content"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          top: 0,
+          background: 'var(--color-accent)',
+          color: '#fff',
+          padding: '0.75rem 1.25rem',
+          borderRadius: 'var(--radius-sm)',
+          zIndex: 100,
+          fontWeight: 500,
+        }}
+        onFocus={(e) => { e.target.style.left = 'var(--space-md)'; e.target.style.top = 'var(--space-md)' }}
+        onBlur={(e) => { e.target.style.left = '-9999px' }}
+      >
+        Skip to main content
+      </a>
       <header
         className="site-header"
         style={{
@@ -62,7 +80,7 @@ export default function Layout() {
           Lancelot Grafilo
         </Link>
 
-        <nav className="desktop-nav" style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
+        <nav className="desktop-nav" aria-label="Main navigation" style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
           <Link to="/projects" className="nav-link" style={{ color: 'var(--color-text-muted)' }}>Projects</Link>
           <Link to="/about" className="nav-link" style={{ color: 'var(--color-text-muted)' }}>About</Link>
           <button
@@ -121,6 +139,7 @@ export default function Layout() {
       {menuOpen && (
         <nav
           className="mobile-nav"
+          aria-label="Mobile navigation"
           style={{
             display: 'none',
             flexDirection: 'column',
@@ -153,7 +172,7 @@ export default function Layout() {
         </nav>
       )}
 
-      <main style={{ flex: 1, padding: 'var(--space-lg)', maxWidth: '1100px', width: '100%', margin: '0 auto' }}>
+      <main id="main-content" style={{ flex: 1, padding: 'var(--space-lg)', maxWidth: '1100px', width: '100%', margin: '0 auto' }}>
         <Outlet />
       </main>
 

@@ -80,7 +80,7 @@ export default function AdminDashboard() {
                   </span>
                 </div>
                 {!m.is_read && (
-                  <span style={{ background: 'var(--color-accent-soft)', color: 'var(--color-accent)', fontSize: '0.75rem', padding: '0.15rem 0.5rem', borderRadius: 'var(--radius-full)' }}>
+                  <span style={{ background: 'var(--color-accent-soft)', color: 'var(--color-accent)', fontSize: '0.75rem', fontWeight: 600, padding: '0.15rem 0.5rem', borderRadius: 'var(--radius-full)' }}>
                     New
                   </span>
                 )}

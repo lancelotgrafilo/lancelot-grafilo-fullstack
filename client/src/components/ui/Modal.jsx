@@ -16,6 +16,8 @@ export default function Modal({
   useEffect(() => {
     if (!open) return
 
+    const previouslyFocused = document.activeElement
+
     function onKeyDown(e) {
       if (e.key === 'Escape') onCancel()
     }
@@ -25,6 +27,9 @@ export default function Modal({
     return () => {
       document.removeEventListener('keydown', onKeyDown)
       document.body.style.overflow = ''
+      if (previouslyFocused && previouslyFocused.focus) {
+        previouslyFocused.focus()
+      }
     }
   }, [open, onCancel])
 

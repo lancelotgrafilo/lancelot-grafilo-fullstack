@@ -29,7 +29,7 @@ export default function AdminLayout() {
         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: 'var(--space-md)' }}>
           {user?.email}
         </p>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+        <nav aria-label="Admin navigation" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
           <Link to="/admin" style={{ color: 'var(--color-text)' }}>Messages</Link>
           <Link to="/admin/projects" style={{ color: 'var(--color-text)' }}>Projects</Link>
           <Link to="/admin/content" style={{ color: 'var(--color-text)' }}>Skills & Experience</Link>
