@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from '../components/ui/Button.jsx'
 import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const LIMITS = { name: 100, email: 254, message: 2000 }
@@ -28,6 +29,7 @@ function validate(values) {
 }
 
 export default function Contact() {
+  usePageTitle('Contact')
   const [values, setValues] = useState(EMPTY)
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | success | error

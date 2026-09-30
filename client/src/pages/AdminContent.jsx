@@ -7,11 +7,13 @@ import Modal from '../components/ui/Modal.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 const SKILL_EMPTY = { name: '', category: '', sort_order: 0 }
 const EXP_EMPTY = { title: '', organization: '', start_date: '', end_date: '', description: '' }
 
 export default function AdminContent() {
+  usePageTitle('Manage Content')
   return (
     <div>
       <SectionHeader title="Skills & Experience" subtitle="Manage your About page content." />

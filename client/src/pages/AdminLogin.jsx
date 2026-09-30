@@ -5,8 +5,10 @@ import { fetchCsrfToken } from '../hooks/useCsrf.js'
 import Button from '../components/ui/Button.jsx'
 import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function AdminLogin() {
+  usePageTitle('Admin Login')
   const { user, checking, refresh } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()

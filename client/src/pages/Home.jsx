@@ -8,12 +8,14 @@ import Avatar from '../components/ui/Avatar.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function Home() {
   const { data: projects, error, loading, retry } = useFetch('/api/projects')
+  usePageTitle('Full-Stack Developer')
 
   const featured = projects?.filter((p) => p.featured) ?? []
-
+ 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>

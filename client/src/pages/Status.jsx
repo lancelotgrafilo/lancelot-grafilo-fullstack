@@ -3,8 +3,10 @@ import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function Status() {
+  usePageTitle('Status')
   const { data, error, loading, retry } = useFetch('/api/health')
 
   return (

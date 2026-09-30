@@ -3,8 +3,10 @@ import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function About() {
+  usePageTitle('About')
   const { data: skills, error: skillsError, loading: skillsLoading, retry: retrySkills } = useFetch('/api/skills')
   const { data: experience, error: expError, loading: expLoading, retry: retryExp } = useFetch('/api/experience')
 

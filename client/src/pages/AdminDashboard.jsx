@@ -8,8 +8,10 @@ import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function AdminDashboard() {
+  usePageTitle('Messages')
   const { data: messages, error, loading, retry } = useFetch('/api/messages')
   const [busyId, setBusyId] = useState(null)
   const [localMessages, setLocalMessages] = useState(null)

@@ -6,10 +6,12 @@ import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 const ALL_TECHNOLOGIES = ['React', 'Node.js', 'Express', 'PostgreSQL', 'Docker']
 
 export default function Projects() {
+  usePageTitle('Projects')
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTech = searchParams.get('tech') || ''
   const search = searchParams.get('search') || ''

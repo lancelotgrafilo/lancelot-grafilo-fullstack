@@ -9,12 +9,14 @@ import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
+import { usePageTitle } from '../hooks/usePageTitle.js'
 
 const EMPTY_FORM = {
   title: '', summary: '', description: '', repo_url: '', live_url: '', featured: false, techInput: '',
 }
 
 export default function AdminProjects() {
+  usePageTitle('Manage Projects')
   const { data: projects, error, loading, retry } = useFetch('/api/projects')
   const [localProjects, setLocalProjects] = useState(null)
   const [formOpen, setFormOpen] = useState(false)
