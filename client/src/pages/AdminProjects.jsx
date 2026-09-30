@@ -10,6 +10,7 @@ import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
+import { useNotify } from '../context/NotificationContext.jsx'
 
 const EMPTY_FORM = {
   title: '', summary: '', description: '', repo_url: '', live_url: '', featured: false, techInput: '',
@@ -26,6 +27,8 @@ export default function AdminProjects() {
   const [saving, setSaving] = useState(false)
   const [pendingDelete, setPendingDelete] = useState(null)
   const [deleting, setDeleting] = useState(false)
+
+  const notify = useNotify()
 
   const list = localProjects ?? projects
 
@@ -81,11 +84,13 @@ export default function AdminProjects() {
         setFormOpen(false)
         setLocalProjects(null)
         retry()
+        notify.success(editingId ? 'Project updated.' : 'Project created.')
         return
       }
 
       const data = await res.json().catch(() => ({}))
       if (data.fields) setFormErrors(data.fields)
+        notify.error(data.error || 'Could not save the project.')
     } finally {
       setSaving(false)
     }
@@ -98,6 +103,9 @@ export default function AdminProjects() {
       const res = await fetch(`/api/projects/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
       if (res.ok) {
         setLocalProjects((list ?? projects).filter((p) => p.id !== pendingDelete.id))
+        notify.success('Project deleted.')
+      } else {
+        notify.error('Could not delete the project.')
       }
     } finally {
       setDeleting(false)

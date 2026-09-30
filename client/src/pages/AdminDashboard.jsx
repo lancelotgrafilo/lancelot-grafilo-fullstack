@@ -9,6 +9,7 @@ import LoadingState from '../components/ui/LoadingState.jsx'
 import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
+import { useNotify } from '../context/NotificationContext.jsx'
 
 export default function AdminDashboard() {
   usePageTitle('Messages')
@@ -19,6 +20,8 @@ export default function AdminDashboard() {
 
   const list = localMessages ?? messages
 
+  const notify = useNotify()
+
   async function withCsrf() {
     const csrfToken = await fetchCsrfToken()
     return { 'x-csrf-token': csrfToken }
@@ -28,13 +31,12 @@ export default function AdminDashboard() {
     setBusyId(id)
     try {
       const headers = await withCsrf()
-      const res = await fetch(`/api/messages/${id}/read`, {
-        method: 'PATCH',
-        credentials: 'same-origin',
-        headers,
-      })
+      const res = await fetch(`/api/messages/${id}/read`, { method: 'PATCH', credentials: 'same-origin', headers })
       if (res.ok) {
         setLocalMessages((list ?? messages).map((m) => (m.id === id ? { ...m, is_read: true } : m)))
+        notify.success('Marked as read.')
+      } else {
+        notify.error('Could not update the message.')
       }
     } finally {
       setBusyId(null)
@@ -46,13 +48,12 @@ export default function AdminDashboard() {
     setBusyId(id)
     try {
       const headers = await withCsrf()
-      const res = await fetch(`/api/messages/${id}`, {
-        method: 'DELETE',
-        credentials: 'same-origin',
-        headers,
-      })
+      const res = await fetch(`/api/messages/${id}`, { method: 'DELETE', credentials: 'same-origin', headers })
       if (res.ok) {
         setLocalMessages((list ?? messages).filter((m) => m.id !== id))
+        notify.success('Message deleted.')
+      } else {
+        notify.error('Could not delete the message.')
       }
     } finally {
       setBusyId(null)

@@ -6,6 +6,7 @@ import Button from '../components/ui/Button.jsx'
 import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
+import { useNotify } from '../context/NotificationContext.jsx'
 
 export default function AdminLogin() {
   usePageTitle('Admin Login')
@@ -17,6 +18,8 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  const notify = useNotify()
 
   if (!checking && user) {
     const redirectTo = location.state?.from?.pathname || '/admin'
@@ -45,6 +48,7 @@ export default function AdminLogin() {
 
       if (res.ok) {
         await refresh()
+        notify.success('Signed in.')
         const redirectTo = location.state?.from?.pathname || '/admin'
         navigate(redirectTo, { replace: true })
         return

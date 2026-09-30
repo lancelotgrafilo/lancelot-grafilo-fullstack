@@ -3,6 +3,7 @@ import Button from '../components/ui/Button.jsx'
 import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
+import { useNotify } from '../context/NotificationContext.jsx'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const LIMITS = { name: 100, email: 254, message: 2000 }
@@ -35,6 +36,8 @@ export default function Contact() {
   const [status, setStatus] = useState('idle') // idle | sending | success | error
   const [formError, setFormError] = useState('')
 
+  const notify = useNotify()
+  
   function handleChange(e) {
     const { name, value } = e.target
     setValues((prev) => ({ ...prev, [name]: value }))
@@ -70,6 +73,7 @@ export default function Contact() {
       if (res.status === 201) {
         setValues(EMPTY)
         setStatus('success')
+        notify.success('Your message was sent.')
         return
       }
 
@@ -79,9 +83,11 @@ export default function Contact() {
       }
       setFormError(data.error || 'Something went wrong. Please try again.')
       setStatus('error')
+      notify.error(data.error || 'Something went wrong. Please try again.')
     } catch {
       setFormError('Could not reach the server. Please try again in a moment.')
       setStatus('error')
+      notify.error('Could not reach the server. Please try again in a moment.')
     }
   }
 

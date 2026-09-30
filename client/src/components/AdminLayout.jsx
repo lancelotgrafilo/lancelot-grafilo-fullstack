@@ -2,11 +2,12 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { fetchCsrfToken } from '../hooks/useCsrf.js'
 import Button from './ui/Button.jsx'
+import { useNotify } from '../context/NotificationContext.jsx'
 
 export default function AdminLayout() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-
+  const notify = useNotify()
   async function handleLogout() {
     try {
       const csrfToken = await fetchCsrfToken()
@@ -19,6 +20,7 @@ export default function AdminLayout() {
       // Even if the request fails, clear local state and send the admin to login
     } finally {
       logout()
+      notify.info('Signed out.')
       navigate('/admin/login', { replace: true })
     }
   }
