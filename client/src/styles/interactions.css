@@ -57,3 +57,25 @@
   background: var(--color-surface-hover) !important;
   transform: rotate(15deg);
 }
+
+@media (max-width: 640px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-button {
+    display: block !important;
+  }
+
+  .mobile-nav {
+    display: flex !important;
+  }
+
+  .site-header {
+    padding: var(--space-sm) var(--space-md) !important;
+  }
+
+  .admin-layout {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -32,6 +32,8 @@
 
   --transition-fast: 150ms ease;
   --transition-base: 200ms ease;  
+
+  --breakpoint-mobile: 640px;
 }
 
 [data-theme='light'] {

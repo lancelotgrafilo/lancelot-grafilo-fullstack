@@ -24,7 +24,7 @@ export default function AdminLayout() {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 'var(--space-lg)', minHeight: '60vh' }}>
+    <div className="admin-layout" style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 'var(--space-lg)', minHeight: '60vh' }}>
       <aside style={{ borderRight: '1px solid var(--color-border)', paddingRight: 'var(--space-md)' }}>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: 'var(--space-md)' }}>
           {user?.email}

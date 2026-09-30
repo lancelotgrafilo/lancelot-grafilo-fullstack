@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext.jsx'
 import { useFetch } from '../hooks/useFetch.js'
@@ -19,48 +20,69 @@ function MoonIcon() {
   )
 }
 
+function MenuIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  )
+}
+
 export default function Layout() {
   const { theme, toggleTheme } = useTheme()
+  const [menuOpen, setMenuOpen] = useState(false)
   const { data: health, error: healthError } = useFetch('/api/health')
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <header style={{
-        borderBottom: '1px solid var(--color-border)',
-        padding: 'var(--space-md) var(--space-lg)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        position: 'sticky',
-        top: 0,
-        background: 'var(--color-header-bg)',
-        backdropFilter: 'blur(8px)',
-        zIndex: 10,
-      }}>
-        <Link to="/" style={{ color: 'var(--color-text)', fontWeight: 600, fontSize: '1.05rem' }}>
+      <header
+        className="site-header"
+        style={{
+          borderBottom: '1px solid var(--color-border)',
+          padding: 'var(--space-md) var(--space-lg)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'sticky',
+          top: 0,
+          background: 'var(--color-header-bg)',
+          backdropFilter: 'blur(8px)',
+          zIndex: 10,
+        }}
+      >
+        <Link to="/" style={{ color: 'var(--color-text)', fontWeight: 600, fontSize: '1.05rem' }} onClick={() => setMenuOpen(false)}>
           Lancelot Grafilo
         </Link>
-        <nav style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
+
+        <nav className="desktop-nav" style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
           <Link to="/projects" className="nav-link" style={{ color: 'var(--color-text-muted)' }}>Projects</Link>
           <Link to="/about" className="nav-link" style={{ color: 'var(--color-text-muted)' }}>About</Link>
-            <button
-              onClick={toggleTheme}
-              className="theme-toggle"
-              style={{
-                background: 'var(--color-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-full)',
-                color: 'var(--color-text)',
-                width: '2.25rem',
-                height: '2.25rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                padding: 0,
-              }}
-              aria-label="Toggle theme"
-            >
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle"
+            style={{
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-full)',
+              color: 'var(--color-text)',
+              width: '2.25rem',
+              height: '2.25rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              padding: 0,
+            }}
+            aria-label="Toggle theme"
+          >
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
           <Link
@@ -77,38 +99,92 @@ export default function Layout() {
             Contact
           </Link>
         </nav>
+
+        <button
+          className="mobile-menu-button"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          style={{
+            display: 'none',
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--color-text)',
+            cursor: 'pointer',
+            padding: '0.4rem',
+          }}
+        >
+          {menuOpen ? <CloseIcon /> : <MenuIcon />}
+        </button>
       </header>
+
+      {menuOpen && (
+        <nav
+          className="mobile-nav"
+          style={{
+            display: 'none',
+            flexDirection: 'column',
+            gap: 'var(--space-md)',
+            padding: 'var(--space-md) var(--space-lg)',
+            borderBottom: '1px solid var(--color-border)',
+            background: 'var(--color-bg)',
+          }}
+        >
+          <Link to="/projects" style={{ color: 'var(--color-text)' }} onClick={() => setMenuOpen(false)}>Projects</Link>
+          <Link to="/about" style={{ color: 'var(--color-text)' }} onClick={() => setMenuOpen(false)}>About</Link>
+          <Link to="/contact" style={{ color: 'var(--color-text)' }} onClick={() => setMenuOpen(false)}>Contact</Link>
+          <button
+            onClick={toggleTheme}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-xs)',
+              background: 'none',
+              border: 'none',
+              color: 'var(--color-text)',
+              cursor: 'pointer',
+              padding: 0,
+              fontSize: '1rem',
+            }}
+          >
+            {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+            {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          </button>
+        </nav>
+      )}
 
       <main style={{ flex: 1, padding: 'var(--space-lg)', maxWidth: '1100px', width: '100%', margin: '0 auto' }}>
         <Outlet />
       </main>
 
-      <footer style={{
-        borderTop: '1px solid var(--color-border)',
-        padding: 'var(--space-md) var(--space-lg)',
-        display: 'flex',
-        justifyContent: 'space-between',
-        color: 'var(--color-text-muted)',
-        fontSize: '0.85rem',
-      }}>
+      <footer
+        style={{
+          borderTop: '1px solid var(--color-border)',
+          padding: 'var(--space-md) var(--space-lg)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          color: 'var(--color-text-muted)',
+          fontSize: '0.85rem',
+        }}
+      >
         <span>Lancelot Grafilo</span>
         <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
           <span
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: 'var(--radius-full)',
-                background: health?.database === 'connected'
-                  ? '#22C55E'
-                  : (health || healthError) ? '#EF4444' : 'var(--color-text-muted)',
-                display: 'inline-block',
-              }}
-            />
-            API: {health
-              ? (health.database === 'connected' ? 'online' : 'degraded')
-              : healthError
-                ? 'offline'
-                : 'checking...'}
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 'var(--radius-full)',
+              background: health?.database === 'connected'
+                ? '#22C55E'
+                : (health || healthError) ? '#EF4444' : 'var(--color-text-muted)',
+              display: 'inline-block',
+            }}
+          />
+          API: {health
+            ? (health.database === 'connected' ? 'online' : 'degraded')
+            : healthError
+              ? 'offline'
+              : 'checking...'}
         </span>
       </footer>
     </div>
