@@ -17,10 +17,97 @@ export default function AdminContent() {
   return (
     <div>
       <SectionHeader title="Skills & Experience" subtitle="Manage your About page content." />
+      <AboutSection />
       <SkillsSection />
       <div style={{ marginTop: 'var(--space-lg)' }}>
         <ExperienceSection />
       </div>
+    </div>
+  )
+}
+
+function AboutSection() {
+  const { data, loading, retry } = useFetch('/api/about')
+  const [intro, setIntro] = useState(null)
+  const [editing, setEditing] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  const displayIntro = intro !== null ? intro : (data?.intro ?? '')
+
+  function startEditing() {
+    setIntro(data?.intro ?? '')
+    setEditing(true)
+  }
+
+  function cancelEditing() {
+    setIntro(null)
+    setEditing(false)
+    setError('')
+  }
+
+  async function handleSave() {
+    setSaving(true)
+    setError('')
+    try {
+      const csrfToken = await fetchCsrfToken()
+      const res = await fetch('/api/about', {
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: { 'x-csrf-token': csrfToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ intro: displayIntro }),
+      })
+      if (res.ok) {
+        setIntro(null)
+        setEditing(false)
+        retry()
+      } else {
+        const d = await res.json().catch(() => ({}))
+        setError(d.fields?.intro || d.error || 'Could not save.')
+      }
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div style={{ marginBottom: 'var(--space-lg)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
+        <h3 style={{ margin: 0 }}>About intro</h3>
+        {!editing && <Button variant="secondary" onClick={startEditing}>Edit</Button>}
+      </div>
+
+      {loading && <LoadingState label="Loading..." />}
+
+      {!loading && !editing && (
+        <Card><p style={{ margin: 0, whiteSpace: 'pre-line' }}>{data?.intro}</p></Card>
+      )}
+
+      {editing && (
+        <Card>
+          <textarea
+            value={displayIntro}
+            onChange={(e) => setIntro(e.target.value)}
+            rows={5}
+            maxLength={2000}
+            style={{
+              width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--color-border)', background: 'var(--color-bg)',
+              color: 'var(--color-text)', fontFamily: 'inherit', fontSize: '0.9rem',
+            }}
+          />
+          <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textAlign: 'right', margin: '0.2rem 0 0.6rem' }}>
+            {displayIntro.length} / 2000
+          </p>
+          {error && <p style={{ color: 'var(--color-danger)', fontSize: '0.85rem' }}>{error}</p>}
+          <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
+            <Button onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>
+            <Button variant="secondary" onClick={cancelEditing} disabled={saving}>
+              Cancel
+            </Button>
+          </div>
+        </Card>
+      )}
     </div>
   )
 }

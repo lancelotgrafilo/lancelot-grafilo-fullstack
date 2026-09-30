@@ -32,7 +32,7 @@ export default function AdminLayout() {
         <nav aria-label="Admin navigation" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
           <Link to="/admin" style={{ color: 'var(--color-text)' }}>Messages</Link>
           <Link to="/admin/projects" style={{ color: 'var(--color-text)' }}>Projects</Link>
-          <Link to="/admin/content" style={{ color: 'var(--color-text)' }}>Skills & Experience</Link>
+          <Link to="/admin/content" style={{ color: 'var(--color-text)' }}>About, Skills & Experience</Link>
         </nav>
         <div style={{ marginTop: 'var(--space-lg)' }}>
           <Button variant="secondary" onClick={handleLogout} style={{ width: '100%' }}>

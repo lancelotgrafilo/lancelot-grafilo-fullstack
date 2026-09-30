@@ -10,6 +10,7 @@ import authRouter from './routes/auth.js';
 import messagesRouter from './routes/messages.js';
 import { apiLimiter } from './middleware/rateLimiters.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
+import aboutRouter from './routes/about.js';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/api/experience', experienceRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/messages', messagesRouter);
+app.use('/api/about', aboutRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

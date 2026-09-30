@@ -19,14 +19,7 @@ export default function About() {
         subtitle="Bookkeeping & Executive Virtual Assistant, now building full-stack web apps."
       />
 
-      <Card style={{ marginBottom: 'var(--space-lg)' }}>
-        <p style={{ margin: 0 }}>
-          I'm Lancelot, a Xero Advisor Certified bookkeeping and executive virtual assistant
-          based in Masbate, Philippines, currently expanding into full-stack development with
-          React, Node.js, Express, PostgreSQL, and Docker. This site is itself a working example
-          of that stack.
-        </p>
-      </Card>
+      <AboutIntro />
 
       <SectionHeader title="Skills" />
       {skillsLoading && <LoadingState label="Loading skills..." />}
@@ -66,6 +59,19 @@ export default function About() {
         </div>
       )}
     </div>
+  )
+}
+
+function AboutIntro() {
+  const { data, loading, error } = useFetch('/api/about')
+
+  if (loading) return <LoadingState label="Loading..." />
+  if (error) return null // fail quietly here, the rest of the page still works
+
+  return (
+    <Card style={{ marginBottom: 'var(--space-lg)' }}>
+      <p style={{ margin: 0, whiteSpace: 'pre-line' }}>{data?.intro}</p>
+    </Card>
   )
 }
 
