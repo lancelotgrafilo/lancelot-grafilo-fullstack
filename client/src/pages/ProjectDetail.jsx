@@ -8,10 +8,11 @@ import ErrorState from '../components/ui/ErrorState.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function ProjectDetail() {
-  usePageTitle(project?.title)
+  
   const { slug } = useParams()
   const { data: project, error, loading, retry } = useFetch(`/api/projects/${slug}`)
-
+  usePageTitle(project?.title)
+  
   return (
     <div>
       <Link
