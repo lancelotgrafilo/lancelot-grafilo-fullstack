@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: portfolio_user
+          POSTGRES_PASSWORD: ci_test_password
+          POSTGRES_DB: portfolio
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U portfolio_user -d portfolio"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      POSTGRES_USER: portfolio_user
+      POSTGRES_PASSWORD: ci_test_password
+      POSTGRES_DB: portfolio
+      DB_HOST: localhost
+      DB_PORT: 5432
+      JWT_SECRET: ci_test_secret_at_least_32_characters_long
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Run server migrations
+        working-directory: server
+        run: npm run migrate
+
+      - name: Run server tests
+        working-directory: server
+        run: npm test
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run client tests
+        working-directory: client
+        run: npm test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Build production server image
+        run: docker build -f server/Dockerfile.prod -t portfolio-server-prod server
+
+      - name: Build production client image
+        run: docker build -f client/Dockerfile.prod -t portfolio-client-prod client
