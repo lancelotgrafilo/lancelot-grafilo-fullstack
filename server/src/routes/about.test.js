@@ -11,6 +11,10 @@ describe('GET /api/about', () => {
     originalIntro = result.rows[0]?.intro ?? '';
   });
 
+  afterAll(async () => {
+    await resetTestData();
+  });
+
   afterEach(async () => {
     await pool.query('UPDATE about_content SET intro = $1 WHERE id = 1', [originalIntro]);
   });

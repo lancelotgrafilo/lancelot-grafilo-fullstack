@@ -9,6 +9,10 @@ describe('GET /api/projects', () => {
     await resetTestData();
   });
 
+  afterAll(async () => {
+    await resetTestData();
+  });
+
   it('returns an empty array when there are no projects', async () => {
     const res = await request(app).get('/api/projects');
     expect(res.status).toBe(200);

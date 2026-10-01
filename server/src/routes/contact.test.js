@@ -8,6 +8,10 @@ describe('POST /api/contact', () => {
     await pool.query('DELETE FROM messages');
   });
 
+  afterAll(async () => {
+    await pool.query('DELETE FROM messages');
+  });
+
   it('rejects an empty submission', async () => {
     const res = await request(app).post('/api/contact').send({ name: '', email: '', message: '' });
     expect(res.status).toBe(400);
