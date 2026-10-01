@@ -4,6 +4,7 @@ import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { useNotify } from '../context/NotificationContext.jsx'
+import { API_BASE } from '../config/api.js'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const LIMITS = { name: 100, email: 254, message: 2000 }
@@ -59,7 +60,7 @@ export default function Contact() {
     setFormError('')
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

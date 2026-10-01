@@ -11,6 +11,7 @@ import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { useNotify } from '../context/NotificationContext.jsx'
+import { API_BASE } from '../config/api.js'
 
 const EMPTY_FORM = {
   title: '', summary: '', description: '', repo_url: '', live_url: '', featured: false, techInput: '',
@@ -18,7 +19,7 @@ const EMPTY_FORM = {
 
 export default function AdminProjects() {
   usePageTitle('Manage Projects')
-  const { data: projects, error, loading, retry } = useFetch('/api/projects')
+  const { data: projects, error, loading, retry } = useFetch(`${API_BASE}/api/projects`)
   const [localProjects, setLocalProjects] = useState(null)
   const [formOpen, setFormOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -46,7 +47,7 @@ export default function AdminProjects() {
   async function openEdit(id) {
     setEditingId(id)
     setFormErrors({})
-    const res = await fetch(`/api/projects/admin/${id}`, { credentials: 'same-origin' })
+    const res = await fetch(`${API_BASE}/api/projects/admin/${id}`, { credentials: 'same-origin' })
     if (res.ok) {
       const p = await res.json()
       setForm({
@@ -75,7 +76,7 @@ export default function AdminProjects() {
         repo_url: form.repo_url, live_url: form.live_url, featured: form.featured, tech,
       }
 
-      const url = editingId ? `/api/projects/${editingId}` : '/api/projects'
+      const url = editingId ? `${API_BASE}/api/projects/${editingId}` : '/api/projects'
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, { method, credentials: 'same-origin', headers, body: JSON.stringify(payload) })
@@ -100,7 +101,7 @@ export default function AdminProjects() {
     setDeleting(true)
     try {
       const headers = await withCsrf()
-      const res = await fetch(`/api/projects/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
+      const res = await fetch(`${API_BASE}/api/projects/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
       if (res.ok) {
         setLocalProjects((list ?? projects).filter((p) => p.id !== pendingDelete.id))
         notify.success('Project deleted.')

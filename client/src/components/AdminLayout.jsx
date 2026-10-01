@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { fetchCsrfToken } from '../hooks/useCsrf.js'
 import Button from './ui/Button.jsx'
 import { useNotify } from '../context/NotificationContext.jsx'
+import { API_BASE } from '../config/api.js'
 
 export default function AdminLayout() {
   const { user, logout } = useAuth()
@@ -11,7 +12,7 @@ export default function AdminLayout() {
   async function handleLogout() {
     try {
       const csrfToken = await fetchCsrfToken()
-      await fetch('/api/auth/logout', {
+      await fetch(`${API_BASE}/api/auth/logout`, {
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'x-csrf-token': csrfToken },

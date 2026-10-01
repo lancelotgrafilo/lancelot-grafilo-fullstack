@@ -8,6 +8,7 @@ import SectionHeader from '../components/ui/SectionHeader.jsx'
 import LoadingState from '../components/ui/LoadingState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
+import { API_BASE } from '../config/api.js'
 
 const SKILL_EMPTY = { name: '', category: '', sort_order: 0 }
 const EXP_EMPTY = { title: '', organization: '', start_date: '', end_date: '', description: '' }
@@ -27,7 +28,7 @@ export default function AdminContent() {
 }
 
 function AboutSection() {
-  const { data, loading, retry } = useFetch('/api/about')
+  const { data, loading, retry } = useFetch(`${API_BASE}/api/about`)
   const [intro, setIntro] = useState(null)
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -51,7 +52,7 @@ function AboutSection() {
     setError('')
     try {
       const csrfToken = await fetchCsrfToken()
-      const res = await fetch('/api/about', {
+      const res = await fetch(`${API_BASE}/api/about`, {
         method: 'PUT',
         credentials: 'same-origin',
         headers: { 'x-csrf-token': csrfToken, 'Content-Type': 'application/json' },
@@ -113,7 +114,7 @@ function AboutSection() {
 }
 
 function SkillsSection() {
-  const { data: skills, loading, retry } = useFetch('/api/skills')
+  const { data: skills, loading, retry } = useFetch(`${API_BASE}/api/skills`)
   const [local, setLocal] = useState(null)
   const [formOpen, setFormOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -147,7 +148,7 @@ function SkillsSection() {
     setSaving(true)
     try {
       const headers = { ...(await withCsrf()), 'Content-Type': 'application/json' }
-      const url = editingId ? `/api/skills/${editingId}` : '/api/skills'
+      const url = editingId ? `${API_BASE}/api/skills/${editingId}` : '/api/skills'
       const method = editingId ? 'PUT' : 'POST'
       const res = await fetch(url, { method, credentials: 'same-origin', headers, body: JSON.stringify(form) })
 
@@ -166,7 +167,7 @@ function SkillsSection() {
 
   async function confirmDelete() {
     const headers = await withCsrf()
-    const res = await fetch(`/api/skills/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
+    const res = await fetch(`${API_BASE}/api/skills/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
     if (res.ok) setLocal((list ?? skills).filter((s) => s.id !== pendingDelete.id))
     setPendingDelete(null)
   }
@@ -239,7 +240,7 @@ function SkillsSection() {
 }
 
 function ExperienceSection() {
-  const { data: experience, loading, retry } = useFetch('/api/experience')
+  const { data: experience, loading, retry } = useFetch(`${API_BASE}/api/experience`)
   const [local, setLocal] = useState(null)
   const [formOpen, setFormOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -279,7 +280,7 @@ function ExperienceSection() {
     setSaving(true)
     try {
       const headers = { ...(await withCsrf()), 'Content-Type': 'application/json' }
-      const url = editingId ? `/api/experience/${editingId}` : '/api/experience'
+      const url = editingId ? `${API_BASE}/api/experience/${editingId}` : '/api/experience'
       const method = editingId ? 'PUT' : 'POST'
       const res = await fetch(url, { method, credentials: 'same-origin', headers, body: JSON.stringify(form) })
 
@@ -298,7 +299,7 @@ function ExperienceSection() {
 
   async function confirmDelete() {
     const headers = await withCsrf()
-    const res = await fetch(`/api/experience/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
+    const res = await fetch(`${API_BASE}/api/experience/${pendingDelete.id}`, { method: 'DELETE', credentials: 'same-origin', headers })
     if (res.ok) setLocal((list ?? experience).filter((x) => x.id !== pendingDelete.id))
     setPendingDelete(null)
   }

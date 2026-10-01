@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { API_BASE } from '../config/api.js'
 
 export function useFetch(url) {
   const [data, setData] = useState(null)
@@ -12,7 +13,7 @@ export function useFetch(url) {
     setLoading(true)
     setError(null)
 
-    fetch(url)
+    fetch(`${API_BASE}${url}`)
       .then((res) => {
         if (!res.ok) throw new Error(`Request failed (${res.status})`)
         return res.json()

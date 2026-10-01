@@ -7,6 +7,7 @@ import Card from '../components/ui/Card.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { useNotify } from '../context/NotificationContext.jsx'
+import { API_BASE } from '../config/api.js'
 
 export default function AdminLogin() {
   usePageTitle('Admin Login')
@@ -36,7 +37,7 @@ export default function AdminLogin() {
     try {
       const csrfToken = await fetchCsrfToken()
 
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {

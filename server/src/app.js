@@ -12,7 +12,25 @@ import { apiLimiter } from './middleware/rateLimiters.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 import aboutRouter from './routes/about.js';
 
+import cors from 'cors';
+
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean);
+
 const app = express();
+
+app.use(helmet());
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like curl or server-to-server calls),
+    // and any origin explicitly listed in ALLOWED_ORIGINS
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 app.use(helmet());
 app.use('/api', apiLimiter);

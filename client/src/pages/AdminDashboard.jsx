@@ -10,10 +10,11 @@ import ErrorState from '../components/ui/ErrorState.jsx'
 import EmptyState from '../components/ui/EmptyState.jsx'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { useNotify } from '../context/NotificationContext.jsx'
+import { API_BASE } from '../config/api.js'
 
 export default function AdminDashboard() {
   usePageTitle('Messages')
-  const { data: messages, error, loading, retry } = useFetch('/api/messages')
+  const { data: messages, error, loading, retry } = useFetch(`${API_BASE}/api/messages`)
   const [busyId, setBusyId] = useState(null)
   const [localMessages, setLocalMessages] = useState(null)
   const [pendingDelete, setPendingDelete] = useState(null)
@@ -31,7 +32,7 @@ export default function AdminDashboard() {
     setBusyId(id)
     try {
       const headers = await withCsrf()
-      const res = await fetch(`/api/messages/${id}/read`, { method: 'PATCH', credentials: 'same-origin', headers })
+      const res = await fetch(`${API_BASE}/api/messages/${id}/read`, { method: 'PATCH', credentials: 'same-origin', headers })
       if (res.ok) {
         setLocalMessages((list ?? messages).map((m) => (m.id === id ? { ...m, is_read: true } : m)))
         notify.success('Marked as read.')
