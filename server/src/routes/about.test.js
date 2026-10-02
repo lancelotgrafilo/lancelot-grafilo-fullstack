@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest';
 import request from 'supertest';
 import app from '../app.js';
 import pool from '../config/db.js';
+import { resetTestData } from '../db/testSetup.js';
 
 describe('GET /api/about', () => {
   let originalIntro;
