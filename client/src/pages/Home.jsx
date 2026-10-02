@@ -12,7 +12,7 @@ import { usePageTitle } from '../hooks/usePageTitle.js'
 
 export default function Home() {
   const { data: projects, error, loading, retry } = useFetch('/api/projects')
-  usePageTitle('Full-Stack Developer')
+  usePageTitle('React + PostgreSQL Full-Stack Developer')
 
   const featured = projects?.filter((p) => p.featured) ?? []
  
