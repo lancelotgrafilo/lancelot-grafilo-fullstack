@@ -6,7 +6,6 @@
 ![Express](https://img.shields.io/badge/Express-API-000000?logo=express&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-4169E1?logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-informational)
 
 Most portfolios are a static page describing a developer's skills. This one is the skills, running live: a React frontend, an Express REST API, a PostgreSQL database, and a Docker-based deployment pipeline, all built from the ground up, phase by phase, and shipped to production.
 
